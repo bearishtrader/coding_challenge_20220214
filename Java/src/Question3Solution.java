@@ -21,9 +21,10 @@ public class Question3Solution {
         -If the memory size after adjustment is smaller then 1 GB, return the result in MB.
     */
     public static final Double USB_STORAGE_LOSS = 0.07;
+
     public static Double getBigDecimalAdjustedMemorySize(String numberStr) {
         BigDecimal bdOriginalMemorySize = new BigDecimal(numberStr);
-        BigDecimal bdMemoryLoss = bdOriginalMemorySize.multiply(new BigDecimal(0.07d));
+        BigDecimal bdMemoryLoss = bdOriginalMemorySize.multiply(BigDecimal.valueOf(USB_STORAGE_LOSS));
         BigDecimal bdAdjustedMemorySize = bdOriginalMemorySize.subtract(bdMemoryLoss);
         return bdAdjustedMemorySize.round(new MathContext(13, RoundingMode.UP)).doubleValue();
     }
@@ -31,7 +32,6 @@ public class Question3Solution {
     public static String actualMemorySize(String memorySize) {
         StringBuilder sb = new StringBuilder(memorySize.toUpperCase());
         Integer indexMBorGB = sb.indexOf("GB");
-        Double originalMemorySize;
         if (indexMBorGB>-1) {   // The memory size is in GB
             Double adjustedMemorySize = getBigDecimalAdjustedMemorySize(sb.substring(0, indexMBorGB));
             if (adjustedMemorySize > 1.0d) {
@@ -44,7 +44,7 @@ public class Question3Solution {
         } else {
             indexMBorGB = sb.indexOf("MB");
             if (indexMBorGB>-1) {
-                double adjustedMemorySize = getBigDecimalAdjustedMemorySize(sb.substring(0, indexMBorGB));
+                Double adjustedMemorySize = getBigDecimalAdjustedMemorySize(sb.substring(0, indexMBorGB));
                 return String.format("%.0f", adjustedMemorySize)+"MB";
             }
         }
@@ -64,29 +64,29 @@ public class Question3Solution {
         // .93x = 1GB
         //
         // Making it exactly 1 GB in actualMemorySize(...) requires special decimal handling
-        BigDecimal bd = new BigDecimal(1.0/0.93);
+        BigDecimal bd = BigDecimal.valueOf(1.0/0.93);
         System.out.println(actualMemorySize(bd.toPlainString()+"GB"));
 
         // Edge case, it will be slightly less than 1 GB
-        BigDecimal bd2 = new BigDecimal(1.0/0.93001);
+        BigDecimal bd2 = BigDecimal.valueOf(1.0/0.93001);
         System.out.println(actualMemorySize(bd2.toPlainString()+"GB"));
 
         // Edge case, it will be exactly 1.01GB
         // x - .07x = 1.01GB
         // .93x = 1.01
-        BigDecimal bd3 = new BigDecimal(1.01/0.93);
+        BigDecimal bd3 = BigDecimal.valueOf(1.01/0.93);
         System.out.println(actualMemorySize(bd3.toPlainString()+"GB"));
 
         // Edge case, rounding 1.005GB
         // x - .07x = 1.005GB
         // .93x = 1.005
-        BigDecimal bd4 = new BigDecimal(1.005/0.93);
+        BigDecimal bd4 = BigDecimal.valueOf(1.005/0.93);
         System.out.println(actualMemorySize(bd4.toPlainString()+"GB"));
 
         // Edge case, rounding 1.0049GB
         // x - .07x = 1.0049GB
         // .93x = 1.0049
-        BigDecimal bd5 = new BigDecimal(1.0049/0.93);
+        BigDecimal bd5 = BigDecimal.valueOf(1.0049/0.93);
         System.out.println(actualMemorySize(bd5.toPlainString()+"GB"));
     }
 }
