@@ -27,7 +27,7 @@ function getHashTags(headline) {
         } else if (a.len>b.len) {
             return 1;
         }
-        if (a.len==b.len) { // If the words are the same length do lexicographic sort
+        if (a.len==b.len) { // If the words are the same length get first word from headline
             if (headline.indexOf(b.str)<headline.indexOf(a.str)) {
                 return -1} else {
                     return 1;
